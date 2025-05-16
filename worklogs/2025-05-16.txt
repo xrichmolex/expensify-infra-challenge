@@ -1,0 +1,46 @@
+# Worklog for 2025-05-16
+
+## Summary of Activities
+- Created a new repository for the project.
+- Set up the initial structure for tracking progress and tasks
+- Review requirements and sketch out rough architecture diagram
+- Review NGINX, HAProxy, and Nagios setup and configuration steps
+
+
+## Process
+
+START TIME: 12:21 PM CST
+
+Finished up my work tasks a bit early today so decided to review and get started on this challenge. 
+
+My first thoughts once reviewing the challenge was to create the foundation for everything.  That meant creating the repository 
+for this exercise and define the structure for how best document my thought process with notes, concerns, issues, etc. A daily 
+working log organized by dates seemed to be the practical choice.  This is the structure I've chosen for now but could always 
+change if this gets too cumbersome. 
+
+Reviewed the requirements in the challenge and documented them first on paper, then in the README.  Used these requirements to
+sketch out a rough architecture diagram.  Will create a more detailed one later on for the README but this will do for now.
+
+Will use NGINX and HAProxy as the software for the webservers and load balancer, respectively.  I chose these because these are
+the applications I am most familiar with.  
+
+Given that the infrastructure was already provided for me, seems like Ansible will be best to manage the configurations.  Need 
+to determine if I need to factor in provisioning the infrastructure into my design.  If I do, terraform will be the better 
+alternative. Will follow up with Chirag next week as it's almost the weekend and don't want communiction to get lost.  If I 
+identify any other questions I can bundle them and ask all at once.  
+
+It's been awhile since I've had to provision a web server so will need to review the install and configuration for both NGINX
+and HAProxy.  I've never utilized Nagios before so will spend some extra time reviewing how the configuration is done for this.
+Note to self: make sure to document all resources used in the README
+
+This feels like a good stopping point for today and I have errands to run so will review the docs on Nagios either tonight or 
+later this weekend.  Going to gym and enjoy Friday night with the family.
+
+END TIME: 3:28 PM CST
+
+
+## Next Steps
+- Determine whether to use Ansible or terraform. Send follow up email to confirm the assumption that infrastructure provisioning
+    doesn't need to be factored in. 
+- Review NGINX, HAProxy, and Nagios installation steps and configuration steps/syntax.
+- Create better architecture diagram for README (lower priority)
