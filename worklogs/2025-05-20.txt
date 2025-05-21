@@ -1,0 +1,53 @@
+# Worklog for 2025-05-20
+
+## Summary of Activities
+- Reviewed NGINX, HAProxy, and Nagios setup and configuration steps
+- Decision made on Ansible vs Terraform
+- Created ansible inventory hosts file
+- Confirmed ssh access to servers
+- Manually configured nginx webserver to serve "A"
+
+
+## Process
+
+START TIME: 8:44 PM CST
+
+I've had some thoughts all weekend about how to best approach this challenge.  After reaching out with some clarifying
+questions via email, I am going to utilize ansible for this challenge. Since the scope of this challenge does not include
+infrastructure provisioning (as this is handled and managed by the Expensify team), Ansible represents the best choice to
+configure this load balanced web application since I'll need to install and configure packages and want this to be a 
+repeatable configuration management as needed.
+
+The web server configurations seem to be the easiest parts of this challenge.  This will only involve installing nginx,
+creating the basic html page to serve "A" and "B" respectively, and start and enable the service.
+
+Now which of these servers to use for the webservers? My first thoughts were to look up the ip addresses and found they are
+all AWS EC2 instances in the us-west-2 region.  Since they are all located in the same region, I don't believe that we need
+to choose which IPs to use with latency in mind.  It might even be safe to assume they are all hosted on the same VPC so
+latency should be at a minimum.  To satisfy my slight OCD, I will use the two servers with the same first octent in the IP
+address for the webservers. Now to create the ansible inventory file. Shouldn't take long as I'll group the 4 servers in
+groups like `web`, `lb`, and `monitor` (working names for now. may choose the change later)
+
+Now to establish the web server. I will do this manually first to confirm I have all the steps documented before looking 
+to automate the configuration management with Ansible.
+
+Spent the next few mins logged into one of the servers and manually configured a basic html site hosted by nginx.  The
+configuration is very straight forward and should be relatively easy to code (knock on wood).  See photo for Proof of
+Concept
+
+<PHOTO HERE. TO BE INSERTED LATER> 
+
+Another thing to consider now is the playbooks that would need to be created.  I can create one playbook for the whole
+system and that will satisfy the minimum requirements of the challenge, but what if just the webservers or nagios box needed
+to be reconfigured? Would it make sense to create separate playbooks for just these functions? I believe it would so, even
+though it might be overkill for this challenge, I'll create separate playbooks for these anyways.
+
+It's getting late so I'll stop here for tonight and pick it up again tomorrow.
+
+END TIME: 10:37 PM CST
+
+
+## Next Steps
+- Code web server configuration ansible role
+- create main ansible playbook and playbook for just web server configurations
+- Create better architecture diagram for README (lower priority)
