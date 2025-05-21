@@ -1,0 +1,6 @@
+---
+- name: Run webserver role on web hosts
+  hosts: web
+  become: yes
+  roles:
+    - webserver

@@ -1,9 +1,9 @@
 [web]
-35.90.39.126
-35.92.62.198
+web1    ansible_host=35.90.39.126
+web2    ansible_host=35.92.62.198	
 
-[lb]
-34.220.9.184
+[loadbalancer]
+lb      ansible_host=34.220.9.184
 
 [monitor]
-54.188.236.235
+nagios  ansible_host=54.188.236.235
