@@ -1,0 +1,6 @@
+---
+- name: Configure load balancer with HAProxy
+  hosts: loadbalancer
+  become: yes
+  roles:
+    - lb # This role installs and configures HAProxy as a load balancer.

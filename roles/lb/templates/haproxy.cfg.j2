@@ -1,0 +1,28 @@
+global
+    log /dev/log    local0
+    log /dev/log    local1 notice
+    daemon
+    maxconn 4096
+
+defaults
+    log     global
+    mode    http
+    option  httplog
+    option  dontlognull
+    retries 3
+    timeout connect 5000ms
+    timeout client  50000ms
+    timeout server  50000ms
+    option  redispatch
+
+frontend http_frontend
+    bind *:80
+    bind *:60000-65000
+    default_backend webservers
+
+backend webservers
+    balance source
+    option httpchk
+    http-check expect status 200
+    server web1 {{ web1_ip }}:80 check
+    server web2 {{ web2_ip }}:80 check
