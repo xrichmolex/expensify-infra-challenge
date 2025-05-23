@@ -4,6 +4,14 @@
     state: present
     update_cache: yes
 
+- name: Restrict ephemeral port range to below 60000
+  sysctl:
+    name: net.ipv4.ip_local_port_range
+    value: "32768 59999"
+    state: present
+    sysctl_set: yes
+    reload: yes
+
 - name: Deploy HAProxy configuration
   template:
     src: haproxy.cfg.j2
