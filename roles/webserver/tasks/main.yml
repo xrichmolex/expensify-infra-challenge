@@ -1,19 +1,37 @@
+# This Role installs and configures Nginx on the web servers.
+# It uses a Jinja2 template to create an index.html file and deploys a custom nginx.conf file.
+# The playbook also ensures that Nginx is running and enabled to start on boot.
+
+---
+# Install Nginx on the web servers.
 - name: Install Nginx
   apt:
     name: nginx
     state: present
     update_cache: yes
 
+# Build the index.html file from a Jinja2 template.
 - name: Build index.html
   template:
     src: index.html.j2
     dest: /var/www/html/index.html
     owner: www-data
     group: www-data
-    mode: '0644'
+    mode: 0644
 
-- name: Start Nginx
+# Deploy the nginx.conf file with IP forwarding enabled.
+- name: Deploy default nginx.conf with client IP forwarding enabled
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: Reload Nginx
+
+# Ensure Nginx starts on boot and is currently running.
+- name: Ensure Nginx is running and enabled
   service:
     name: nginx
     state: started
-    enabled: yes
+    enabled: true

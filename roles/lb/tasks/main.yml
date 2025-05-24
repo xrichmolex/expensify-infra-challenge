@@ -2,15 +2,15 @@
   apt:
     name: haproxy
     state: present
-    update_cache: yes
+    update_cache: true
 
 - name: Restrict ephemeral port range to below 60000
   sysctl:
     name: net.ipv4.ip_local_port_range
     value: "32768 59999"
     state: present
-    sysctl_set: yes
-    reload: yes
+    sysctl_set: true
+    reload: true
 
 - name: Deploy HAProxy configuration
   template:
@@ -18,11 +18,11 @@
     dest: /etc/haproxy/haproxy.cfg
     owner: root
     group: root
-    mode: '0644'
+    mode: 0644
   notify: Restart HAProxy
 
 - name: Ensure HAProxy is enabled and running
   service:
     name: haproxy
     state: started
-    enabled: yes
+    enabled: true

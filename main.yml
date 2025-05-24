@@ -1,0 +1,25 @@
+---
+- name: Install webserver role on web hosts
+  hosts: web
+  become: true
+  roles:
+    - webserver
+
+- name: Install lb role on loadbalancer hosts
+  hosts: loadbalancer
+  become: true
+  roles:
+    - lb
+
+# - name: Install nagios role on monitor hosts
+#   hosts: monitor
+#   become: true
+#   roles:
+#     - nagios
+#
+# - name: Install remaining roles on all servers
+#   hosts: all
+#   become: true
+#   roles:
+#     - { role: users }
+#     - { role: network }
