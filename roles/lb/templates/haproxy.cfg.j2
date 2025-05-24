@@ -15,10 +15,12 @@ defaults
     timeout server  50000ms
     option  redispatch
 
-frontend http_frontend
+frontend haproxy-http
     bind *:80
     bind *:60000-65000
     default_backend webservers
+    stick-table type ip size 200k expire 30m
+    stick on src
 
 backend webservers
     balance source
@@ -26,6 +28,9 @@ backend webservers
     http-request set-header X-Forwarded-For %[src]
     option httpchk GET /index.html
     http-check expect status 200
+    stick-table type ip size 200k expire 30m
+    stick on src
+    option persist
 {% for host in groups['web'] %}
     server {{ host }} {{ hostvars[host]['ansible_host'] }}:80 check
 {% endfor %}
