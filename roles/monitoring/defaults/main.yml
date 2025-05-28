@@ -1,0 +1,30 @@
+# Required packages for nagios on Ubuntu 20.04
+required_core_packages:
+  - autoconf
+  - gcc
+  - libc6
+  - make
+  - wget
+  - unzip
+  - apache2
+  - php
+  - libapache2-mod-php
+  - libgd-dev
+  - openssl
+  - libssl-dev
+
+required_plugins_packages:
+  - autoconf
+  - gcc
+  - libc6
+  - libmcrypt-dev
+  - make
+  - libssl-dev
+  - wget
+  - bc
+  - gawk 
+  - dc
+  - build-essential
+  - snmp
+  - libnet-snmp-perl
+  - gettext

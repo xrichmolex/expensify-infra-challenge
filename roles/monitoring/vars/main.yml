@@ -1,0 +1,8 @@
+nagios_user: nagios
+nagios_group: nagcmd
+
+nagios_version: 4.5.9
+nagios_url: "https://github.com/NagiosEnterprises/nagioscore/releases/download/nagios-{{ nagios_version }}/nagios-{{ nagios_version }}.tar.gz"
+
+nagios_plugins_version: 2.4.11
+nagios_plugins_url: "https://nagios-plugins.org/download/nagios-plugins-{{ nagios_plugins_version }}.tar.gz"

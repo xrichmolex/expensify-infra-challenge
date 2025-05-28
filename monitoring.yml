@@ -1,0 +1,6 @@
+---
+- name: Install Nagios on monitoring node
+  hosts: monitor
+  become: true
+  roles:
+    - monitoring

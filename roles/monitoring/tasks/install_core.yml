@@ -1,0 +1,87 @@
+# Install Nagios prerequisites
+- name: Install prerequisites
+  apt:
+    name: "{{ required_core_packages }}"
+    state: present
+
+# Download and extract the desired release of Nagios 4
+- name: Download Nagios Core
+  get_url:
+    url: "{{ nagios_url }}"
+    dest: /tmp/nagios-{{ nagios_version }}.tar.gz
+
+- name: Extract Nagios Core
+  unarchive:
+    src: /tmp/nagios-{{ nagios_version }}.tar.gz
+    dest: /tmp/
+    remote_src: yes
+
+# Install and Configure Nagios Core 
+- name: Run Nagios Core installation steps
+  shell: |
+    {{ item }}
+  args:
+    chdir: /tmp/nagios-{{ nagios_version }}
+  loop:
+    - ./configure --with-httpd-conf=/etc/apache2/sites-enabled  # Run configure script
+    - make all                                                  # Compile Nagios
+    - make install-groups-users                                 # Create Nagios user and group
+    - make install                                              # Install Binaries and Services
+    - make install-daemoninit                                   # Install Service/Daemon files
+    - make install-commandmode                                  # Install Command Mode
+    - make install-config                                       # Install Config Files
+    - make install-webconf                                      # Install Apache config
+  notify: Restart Apache2
+
+# Nagios user/group creation
+- name: Create nagios group
+  group:
+    name: "{{ nagios_group }}"
+    state: present
+
+- name: Create nagios user
+  user:
+    name: "{{ nagios_user }}"
+    group: "{{ nagios_group }}"
+    create_home: yes
+    shell: /bin/bash
+
+- name: Add www-data to nagcmd group
+  user:
+    name: www-data
+    groups: "{{ nagios_group }}"
+    append: yes
+
+# Configure Apache
+- name: Enable Apache rewrite and cgi modules
+  apache2_module:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - rewrite
+    - cgi
+  notify: Restart Apache2
+
+# Configure Firewall
+- name: Allow Apache through UFW
+  ufw:
+    rule: allow
+    name: 'Apache'
+  notify: Reload UFW
+
+# Set up Nagios web interface
+- name: Create the ansible user for Nagios web interface using secure variables
+  block:
+    - include_vars: vars/vault.yml
+    - name: Create the ansible user for Nagios web interface
+      command: htpasswd -bc /usr/local/nagios/etc/htpasswd.users {{ nagios_admin_user }} {{ nagios_admin_pass }}
+  
+# Start and Enable the Nagios and Apache services
+- name: Start Nagios and Apache2
+  systemd:
+    name: "{{ item }}"
+    state: started
+    enabled: true
+  loop:
+    - nagios
+    - apache2

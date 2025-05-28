@@ -1,0 +1,30 @@
+# Install Nagios Plugin Prerequisites
+- name: Install Plugin prerequisites
+  apt:
+    name: "{{ required_plugins_packages }}"
+    state: present
+
+# Download and extract the desired release of Nagios Plugins
+- name: Download Nagios Plugins
+  get_url:
+    url: "{{ nagios_plugins_url }}"
+    dest: /tmp/nagios-plugins-{{ nagios_plugins_version }}.tar.gz
+
+- name: Extract Nagios Plugins
+  unarchive:
+    src: /tmp/nagios-plugins-{{ nagios_plugins_version }}.tar.gz
+    dest: /tmp/
+    remote_src: yes
+
+# Install and Configure Nagios Plugins 
+- name: Run Nagios Plugins installation steps
+  shell: |
+    {{ item }}
+  args:
+    chdir: /tmp/nagios-plugins-{{ nagios_plugins_version }}
+  loop:
+    - ./configure         # Configure Nagios Plugins
+    - make                # Compile Nagios Plugins
+    - make install        # Install Nagios Plugins
+
+# WIP: Still need to install the custom plugin

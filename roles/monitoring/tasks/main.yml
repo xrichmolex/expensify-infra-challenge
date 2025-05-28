@@ -1,0 +1,7 @@
+- name: Install Nagios Core on Monitoring Host
+  include_tasks: install_core.yml
+  when: "'monitor' in group_names"
+
+- name: Install Nagios Plugins on Web and LB Hosts
+  include_tasks: install_plugins.yml
+  when: "'monitor' not in group_names"

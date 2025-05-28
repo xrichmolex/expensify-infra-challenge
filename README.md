@@ -51,10 +51,12 @@ Daily work logs will be stored in `worklogs/`.  These files will detail my thoug
 
 ## RESOURCES
 Ansible - https://docs.ansible.com/ansible/latest/getting_started/index.html
+Ansible Vault - https://docs.ansible.com/ansible/latest/vault_guide/index.html
 HAProxy (docs)- https://www.haproxy.com/documentation/haproxy-configuration-manual/latest/
 HAProxy (configuration)- https://www.haproxy.com/blog/the-four-essential-sections-of-an-haproxy-configuration
 Load Balancing Algorithms - https://www.haproxy.com/glossary/what-are-load-balancing-algorithms
 Dynamic/Ephemeral Ports - https://www.techtarget.com/searchnetworking/definition/dynamic-port-numbers#:~:text=User%20ports%2C%20also%20known%20as,65535%20and%20are%20never%20assigned.
 Stick Tables - https://www.haproxy.com/blog/introduction-to-haproxy-stick-tables
 Jinja - https://jinja.palletsprojects.com/en/stable/
-Nagios - https://documentation.ubuntu.com/server/how-to/observability/install-nagios/index.html
+Nagios Install (Core) - https://support.nagios.com/kb/article/nagios-core-installing-nagios-core-from-source-96.html#Ubuntu
+Nagios Install (Plugins) - https://support.nagios.com/kb/article.php?id=569#Ubuntu
