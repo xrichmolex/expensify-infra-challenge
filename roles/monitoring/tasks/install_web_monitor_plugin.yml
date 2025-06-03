@@ -1,0 +1,29 @@
+- name: Copy web monitor script
+  copy:
+    src: web_monitor.py
+    dest: "{{ nagios_custom_script_path }}/web_monitor.py"
+    mode: 0755
+    owner: nagios
+    group: nagios
+
+- name: Deploy web server list
+  template:
+    src: webservers.txt.j2
+    dest: "{{ nagios_config_path }}/webservers.txt"
+    mode: 0644
+    owner: nagios
+    group: nagios
+
+- name: Deploy Nagios custom service config
+  template:
+    src: web_monitor.cfg.j2
+    dest: "{{ nagios_web_monitor_cfg }}"
+    mode: 0644
+  notify: Restart Nagios
+
+- name: Add web_monitor.cfg to Nagios configuration file
+  lineinfile:
+    path: "{{ nagios_config_path }}/nagios.cfg"
+    line: "cfg_file={{ nagios_web_monitor_cfg }}"
+    state: present
+  notify: Restart Nagios

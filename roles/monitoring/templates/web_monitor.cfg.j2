@@ -1,0 +1,15 @@
+define command {
+    command_name    check_webservers
+    command_line    {{ nagios_custom_script_path }}/web_monitor.py {{ nagios_config_path }}/webservers.txt
+}
+
+define service {
+    use                     generic-service
+    host_name               localhost
+    service_description     Web Server Availability
+    check_command           check_webservers
+    check_interval          5
+    retry_interval          1
+    max_check_attempts      3
+    notification_interval   30
+}

@@ -1,0 +1,3 @@
+{% for host in groups['web'] %}
+http://{{ hostvars[host].ansible_host }}
+{% endfor %}
