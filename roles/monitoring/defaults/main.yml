@@ -1,5 +1,5 @@
 # Required packages for nagios on Ubuntu 20.04
-required_core_packages:
+required_packages:
   - autoconf
   - gcc
   - libc6
@@ -12,15 +12,7 @@ required_core_packages:
   - libgd-dev
   - openssl
   - libssl-dev
-
-required_plugins_packages:
-  - autoconf
-  - gcc
-  - libc6
   - libmcrypt-dev
-  - make
-  - libssl-dev
-  - wget
   - bc
   - gawk 
   - dc

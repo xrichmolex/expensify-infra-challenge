@@ -5,3 +5,8 @@
 
 - name: Reload UFW
   command: ufw reload
+
+- name: Restart Nagios
+  systemd:
+    name: nagios
+    state: restarted

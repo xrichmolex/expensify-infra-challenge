@@ -7,3 +7,8 @@ lb      ansible_host=34.220.9.184
 
 [monitor]
 nagios  ansible_host=54.188.236.235
+
+# The following groups are monitored by Nagios
+[monitored:children]
+web
+loadbalancer

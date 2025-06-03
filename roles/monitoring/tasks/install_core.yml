@@ -1,9 +1,3 @@
-# Install Nagios prerequisites
-- name: Install prerequisites
-  apt:
-    name: "{{ required_core_packages }}"
-    state: present
-
 # Download and extract the desired release of Nagios 4
 - name: Download Nagios Core
   get_url:
@@ -23,14 +17,14 @@
   args:
     chdir: /tmp/nagios-{{ nagios_version }}
   loop:
-    - ./configure --with-httpd-conf=/etc/apache2/sites-enabled  # Run configure script
-    - make all                                                  # Compile Nagios
-    - make install-groups-users                                 # Create Nagios user and group
-    - make install                                              # Install Binaries and Services
-    - make install-daemoninit                                   # Install Service/Daemon files
-    - make install-commandmode                                  # Install Command Mode
-    - make install-config                                       # Install Config Files
-    - make install-webconf                                      # Install Apache config
+    - ./configure --with-httpd-conf=/etc/apache2/sites-enabled --with-command-group=nagcmd    # Run configure script
+    - make all                                                                                # Compile Nagios
+    - make install-groups-users                                                               # Create Nagios user and group
+    - make install                                                                            # Install Binaries and Services
+    - make install-daemoninit                                                                 # Install Service/Daemon files
+    - make install-commandmode                                                                # Install Command Mode
+    - make install-config                                                                     # Install Config Files
+    - make install-webconf                                                                    # Install Apache config
   notify: Restart Apache2
 
 # Nagios user/group creation
@@ -46,11 +40,30 @@
     create_home: yes
     shell: /bin/bash
 
-- name: Add www-data to nagcmd group
+- name: Add necessary users to nagcmd group
   user:
-    name: www-data
+    name: "{{ item }}"
     groups: "{{ nagios_group }}"
     append: yes
+  loop:
+    - www-data
+    - apache
+
+# Build and Configure Nagios Hosts
+- name: Generate Nagios host configuration from inventory
+  template:
+    src: host.cfg.j2
+    dest: "{{ nagios_host_cfg }}"
+    owner: "{{ nagios_user }}"
+    group: "{{ nagios_user }}"
+    mode: 0644
+
+- name: Add host.cfg to Nagios configuration file
+  lineinfile:
+    path: "{{ nagios_config_path }}/nagios.cfg"
+    line: "cfg_file={{ nagios_host_cfg }}"
+    state: present
+  notify: Restart Nagios
 
 # Configure Apache
 - name: Enable Apache rewrite and cgi modules

@@ -1,9 +1,3 @@
-# Install Nagios Plugin Prerequisites
-- name: Install Plugin prerequisites
-  apt:
-    name: "{{ required_plugins_packages }}"
-    state: present
-
 # Download and extract the desired release of Nagios Plugins
 - name: Download Nagios Plugins
   get_url:
@@ -26,5 +20,3 @@
     - ./configure         # Configure Nagios Plugins
     - make                # Compile Nagios Plugins
     - make install        # Install Nagios Plugins
-
-# WIP: Still need to install the custom plugin

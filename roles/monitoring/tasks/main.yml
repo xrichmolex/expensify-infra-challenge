@@ -1,7 +1,17 @@
+# Install Nagios prerequisites
+- name: Install prerequisites
+  apt:
+    name: "{{ required_packages }}"
+    state: present
+
+# Install Nagios Core
 - name: Install Nagios Core on Monitoring Host
   include_tasks: install_core.yml
-  when: "'monitor' in group_names"
 
-- name: Install Nagios Plugins on Web and LB Hosts
+# Install Base Nagios Plugins
+- name: Install Base Nagios Plugins
   include_tasks: install_plugins.yml
-  when: "'monitor' not in group_names"
+
+# Install custom Web Monitor Plugin
+- name: Install Web Monitor Plugin 
+  include_tasks: install_web_monitor_plugin.yml

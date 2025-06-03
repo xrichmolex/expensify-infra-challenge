@@ -3,16 +3,16 @@
     src: web_monitor.py
     dest: "{{ nagios_custom_script_path }}/web_monitor.py"
     mode: 0755
-    owner: nagios
-    group: nagios
+    owner: "{{ nagios_user }}"
+    group: "{{ nagios_user }}"
 
 - name: Deploy web server list
   template:
     src: webservers.txt.j2
     dest: "{{ nagios_config_path }}/webservers.txt"
     mode: 0644
-    owner: nagios
-    group: nagios
+    owner: "{{ nagios_user }}"
+    group: "{{ nagios_user }}"
 
 - name: Deploy Nagios custom service config
   template:

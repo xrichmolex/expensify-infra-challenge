@@ -6,3 +6,8 @@ nagios_url: "https://github.com/NagiosEnterprises/nagioscore/releases/download/n
 
 nagios_plugins_version: 2.4.11
 nagios_plugins_url: "https://nagios-plugins.org/download/nagios-plugins-{{ nagios_plugins_version }}.tar.gz"
+
+nagios_custom_script_path: /usr/local/nagios/libexec
+nagios_config_path: /usr/local/nagios/etc
+nagios_host_cfg: "{{ nagios_config_path }}/objects/host.cfg"
+nagios_web_monitor_cfg: "{{ nagios_config_path }}/objects/web_monitor.cfg"
