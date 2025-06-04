@@ -61,3 +61,4 @@ Jinja - https://jinja.palletsprojects.com/en/stable/
 Nagios Install (Core) - https://support.nagios.com/kb/article/nagios-core-installing-nagios-core-from-source-96.html#Ubuntu
 Nagios Install (Plugins) - https://support.nagios.com/kb/article.php?id=569#Ubuntu
 Nagios Plugin Development Playlist - https://www.youtube.com/watch?v=tOEe9cZ51Fg&list=PLN-ryIrpC_mA9dm0tXMaJNof76KCC_P00
+Firewall (ufw module) - https://docs.ansible.com/ansible/latest/collections/community/general/ufw_module.html

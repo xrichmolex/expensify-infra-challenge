@@ -1,0 +1,6 @@
+---
+- name: Define network firewall rules 
+  hosts: all
+  become: true
+  roles:
+    - network

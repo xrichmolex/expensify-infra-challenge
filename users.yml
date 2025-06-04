@@ -1,0 +1,6 @@
+---
+- name: Add Users to nodes
+  hosts: all
+  become: true
+  roles:
+    - users

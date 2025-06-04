@@ -1,0 +1,45 @@
+- name: Set bastion host IP
+  set_fact:
+    bastion_ip: >-
+      {{
+        hostvars
+        | dict2items
+        | selectattr('value.bastion_host', 'defined')
+        | selectattr('value.bastion_host', 'equalto', true)
+        | map(attribute='value.ansible_host')
+        | first
+        | default(hostvars[groups['monitor'][0]].ansible_host)
+      }}
+  run_once: true
+
+- name: Ensure UFW is installed
+  apt:
+    name: ufw
+    state: present
+    update_cache: yes
+
+- name: Allow public ports on bastion host
+  ufw:
+    rule: allow
+    port: "{{ item }}"
+  loop:
+    - 22     # SSH
+    - 80     # HTTP (Nagios UI)
+  when: bastion_host | default(false)
+
+# Only allow SSH from bastion node on remaining hosts
+- name: Allow SSH from bastion host
+  ufw:
+    rule: allow
+    port: 22
+    from_ip: "{{ bastion_ip }}"
+  when: not bastion_host | default(false)
+
+- name: Deny all incoming traffic
+  ufw:
+    direction: incoming
+    policy: deny
+
+- name: Enable UFW
+  ufw:
+    state: enabled

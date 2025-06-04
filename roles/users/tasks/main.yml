@@ -1,0 +1,23 @@
+- name: Create expensify user
+  user:
+    name: expensify
+    groups: sudo
+    create_home: true
+    shell: /bin/bash
+    state: present
+
+- name: Create .ssh directory for expensify user
+  file:
+    path: /home/expensify/.ssh
+    state: directory
+    mode: 0700
+    owner: expensify
+    group: expensify
+
+- name: Copy authorized_keys file for expensify user
+  copy:
+    src: infra_team_authorized_keys.pub
+    dest: /home/expensify/.ssh/authorized_keys
+    owner: expensify
+    group: expensify
+    mode: 0600
